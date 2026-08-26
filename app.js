@@ -514,8 +514,8 @@ function renderChart() {
     updateKPIs();
 }
 
-// Trigger AI Optimizer Simulation
-function triggerOptimization() {
+// Trigger AI Optimizer Backend / Simulation
+async function triggerOptimization() {
     if (appState.optimized) {
         // Reset to original state
         appState.optimized = false;
@@ -534,47 +534,111 @@ function triggerOptimization() {
 
     // Activate loading overlay
     solverOverlay.classList.add("active");
-    addLog("Triggered Automated Block Planner Solver Engine...", "system");
-    
-    let step = 0;
-    const interval = setInterval(() => {
-        step++;
-        if (step === 1) {
-            addLog("Executing Mixed-Integer Linear Programming (MILP) Optimizer (Google OR-Tools CP-SAT)...", "info");
-        } else if (step === 2) {
-            addLog("Running DBSCAN clustering algorithm for Integrated Block Coordination...", "info");
-        } else if (step === 3) {
-            addLog("SUCCESS: Combined BLK-001 (Civil) & BLK-002 (OHE) into a single 3-hour Integrated Block on Section KJM-WFD.", "success");
-        } else if (step === 4) {
-            addLog("Running Graph Neural Network (GNN) delay propagation simulator...", "info");
-        } else if (step === 5) {
-            addLog("Conflict Solved: Shifted Block BLK-001/002 to 11:45-14:45. Shadow window found.", "success");
-            addLog("Conflict Solved: Shifted BLK-003 to 16:45. Let's Freight FG-401 and Karnataka Exp bypass with 0-5m delay.", "success");
-        } else if (step === 6) {
-            addLog("Resolving loop capacity constraints. Regulating Train 16521 on loop line 2 of Krishnarajapuram.", "info");
-        } else if (step === 7) {
-            addLog("Solver terminated. Optimization target reached. Objective function Z = 15.", "success");
-            
-            // Apply Optimized State
-            appState.optimized = true;
-            appState.alerts = [
-                { id: "A1", type: "clash", msg: "RESOLVED: Train 16521 regulation minimised. Delay reduced to 10 mins.", time: "10:20", resolved: true },
-                { id: "A2", type: "clash", msg: "RESOLVED: Train 22691 (Rajdhani) delay eliminated (0 mins).", time: "12:35", resolved: true },
-                { id: "A3", type: "efficiency", msg: "OPTIMIZED: Consolidated Civil and OHE work on KJM-WFD saving 2hr track closure.", time: "11:30", resolved: true },
-                { id: "A4", type: "clash", msg: "RESOLVED: Freight Cargo FG-401 delay reduced to 5 mins.", time: "15:10", resolved: true }
-            ];
+    addLog("Triggering AI/ML Optimization Engine...", "system");
 
-            // Hide overlay
+    try {
+        // Try calling the Python FastAPI server
+        addLog("Connecting to FastAPI backend (localhost:8000)...", "info");
+        const response = await fetch("http://localhost:8000/api/optimize", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                requests: appState.blocks,
+                trains: appState.trains
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        addLog("FastAPI response received. Running live updates...", "success");
+
+        // Set state from backend output
+        appState.optimized = true;
+        
+        // Map backend optimized blocks back
+        data.blocks.forEach(optBlock => {
+            const block = appState.blocks.find(b => b.id === optBlock.id);
+            if (block) {
+                block.optStart = optBlock.optStart;
+                block.optEnd = optBlock.optEnd;
+            }
+        });
+
+        // Map backend delays back to trains
+        appState.trains.forEach(train => {
+            if (data.delays[train.id]) {
+                train.delays.opt = data.delays[train.id];
+            }
+        });
+
+        // Set warnings resolved
+        appState.alerts = [
+            { id: "A1", type: "clash", msg: `RESOLVED: Train 16521 regulation minimised. Delay reduced to ${Math.max(...appState.trains.find(t=>t.id==="T-16521").delays.opt)} mins.`, time: "10:20", resolved: true },
+            { id: "A2", type: "clash", msg: `RESOLVED: Train 22691 (Rajdhani) delay eliminated (${Math.max(...appState.trains.find(t=>t.id==="T-22691").delays.opt)} mins).`, time: "12:35", resolved: true },
+            { id: "A3", type: "efficiency", msg: "OPTIMIZED: Consolidated Civil and OHE work on KJM-WFD saving 2hr track closure.", time: "11:30", resolved: true },
+            { id: "A4", type: "clash", msg: `RESOLVED: Freight Cargo FG-401 delay reduced to ${Math.max(...appState.trains.find(t=>t.id==="T-401").delays.opt)} mins.`, time: "15:10", resolved: true }
+        ];
+
+        // Print Python logs
+        data.logs.forEach((log, index) => {
+            setTimeout(() => {
+                addLog(`[Python API] ${log}`, "success");
+            }, index * 200);
+        });
+
+        setTimeout(() => {
             solverOverlay.classList.remove("active");
-            clearInterval(interval);
-
-            // Toggle Button to Reset
             optButton.innerHTML = `<span>🔄</span> Reset to Siloed State`;
             optButton.style.background = 'linear-gradient(135deg, var(--danger), #dc2626)';
-
             renderChart();
-        }
-    }, 450);
+        }, data.logs.length * 200 + 300);
+
+    } catch (error) {
+        // Fallback to local simulation if python backend is offline
+        addLog("FastAPI backend offline. Falling back to frontend mock simulation.", "warning");
+        
+        let step = 0;
+        const interval = setInterval(() => {
+            step++;
+            if (step === 1) {
+                addLog("[Simulated] Executing Mixed-Integer Linear Programming (MILP) Optimizer (Google OR-Tools)...", "info");
+            } else if (step === 2) {
+                addLog("[Simulated] Running DBSCAN clustering algorithm for Integrated Block Coordination...", "info");
+            } else if (step === 3) {
+                addLog("[Simulated] SUCCESS: Combined BLK-001 (Civil) & BLK-002 (OHE) into a single 3-hour Integrated Block.", "success");
+            } else if (step === 4) {
+                addLog("[Simulated] Running Graph Neural Network (GNN) delay propagation simulator...", "info");
+            } else if (step === 5) {
+                addLog("[Simulated] Conflict Solved: Shifted Block BLK-001/002 to 11:45-14:45. Shadow window found.", "success");
+                addLog("[Simulated] Conflict Solved: Shifted BLK-003 to 16:45. Let's Freight FG-401 and Karnataka Exp bypass.", "success");
+            } else if (step === 6) {
+                addLog("[Simulated] Resolving loop capacity constraints. Regulating Train 16521 at Krishnarajapuram.", "info");
+            } else if (step === 7) {
+                addLog("[Simulated] Solver terminated. Optimization target reached. Objective function Z = 15.", "success");
+                
+                appState.optimized = true;
+                appState.alerts = [
+                    { id: "A1", type: "clash", msg: "RESOLVED: Train 16521 regulation minimised. Delay reduced to 10 mins.", time: "10:20", resolved: true },
+                    { id: "A2", type: "clash", msg: "RESOLVED: Train 22691 (Rajdhani) delay eliminated (0 mins).", time: "12:35", resolved: true },
+                    { id: "A3", type: "efficiency", msg: "OPTIMIZED: Consolidated Civil and OHE work on KJM-WFD saving 2hr track closure.", time: "11:30", resolved: true },
+                    { id: "A4", type: "clash", msg: "RESOLVED: Freight Cargo FG-401 delay reduced to 5 mins.", time: "15:10", resolved: true }
+                ];
+
+                solverOverlay.classList.remove("active");
+                clearInterval(interval);
+
+                optButton.innerHTML = `<span>🔄</span> Reset to Siloed State`;
+                optButton.style.background = 'linear-gradient(135deg, var(--danger), #dc2626)';
+
+                renderChart();
+            }
+        }, 450);
+    }
 }
 
 // Bind Events
