@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAIL-BLOCK AI: Automated Block Planning System | Indian Railways</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="logo-container">
+            <span class="logo-icon">🎛️</span>
+            <div class="logo-text">
+                <h1>RAIL-BLOCK AI</h1>
+                <p>Ministry of Railways • Automated Planning System</p>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <div class="header-status">
+                <span class="status-pulse"></span>
+                <span>COA Live Feed Connected</span>
+            </div>
+            <button class="btn-secondary" onclick="location.reload()">🔄 Refresh Feed</button>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dashboard-container">
+        
+        <!-- Left Sidebar - Controls & Ingestion -->
+        <aside class="sidebar">
+            
+            <!-- Controls Panel -->
+            <section class="glass-panel">
+                <h3 class="control-title">AI Solver Console</h3>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Punctuality Weight (w1)</span>
+                        <span id="w1Val">70%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="70" class="slider-input" oninput="document.getElementById('w1Val').innerText = this.value + '%'">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Maintenance Weight (w3)</span>
+                        <span id="w3Val">30%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="30" class="slider-input" oninput="document.getElementById('w3Val').innerText = this.value + '%'">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">AI Optimization Model</label>
+                    <select style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: var(--font-body); outline: none;">
+                        <option value="milp">Google OR-Tools CP-SAT (MILP)</option>
+                        <option value="rl">Deep Q-Network (Real-time RL)</option>
+                        <option value="ga">Hybrid Genetic Algorithm</option>
+                    </select>
+                </div>
+
+                <button class="btn-primary" id="optButton">
+                    <span>⚡</span> Run AI Optimization Engine
+                </button>
+            </section>
+
+            <!-- Pending Maintenance Requests -->
+            <section class="glass-panel" style="flex-grow: 1;">
+                <h3 class="control-title">
+                    <span>BDMS Ingested (3)</span>
+                    <span style="font-size: 0.75rem; color: var(--primary); font-weight: normal;">Live Feed</span>
+                </h3>
+                
+                <div class="requests-list">
+                    <!-- Request 1 -->
+                    <div class="request-card engg">
+                        <div class="request-header">
+                            <span class="dept-badge">Civil Engg</span>
+                            <span>BLK-001</span>
+                        </div>
+                        <h4 class="request-title">Track Tamping (CSM-49)</h4>
+                        <div class="request-details">
+                            <span>Sec: KJM - WFD</span>
+                            <span style="color: var(--danger);">10:00 - 13:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Request 2 -->
+                    <div class="request-card ohe">
+                        <div class="request-header">
+                            <span class="dept-badge">Elec / TRD</span>
+                            <span>BLK-002</span>
+                        </div>
+                        <h4 class="request-title">OHE Wire Replacement</h4>
+                        <div class="request-details">
+                            <span>Sec: KJM - WFD</span>
+                            <span style="color: var(--danger);">11:30 - 13:30</span>
+                        </div>
+                    </div>
+
+                    <!-- Request 3 -->
+                    <div class="request-card st">
+                        <div class="request-header">
+                            <span class="dept-badge">S&T</span>
+                            <span>BLK-003</span>
+                        </div>
+                        <h4 class="request-title">Point Machine Testing</h4>
+                        <div class="request-details">
+                            <span>Sec: WFD Yard</span>
+                            <span style="color: var(--danger);">15:00 - 16:30</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Right Side - Visualizer & Logs -->
+        <div class="main-content">
+            
+            <!-- Metrics Bar -->
+            <div class="metrics-row">
+                <div class="glass-panel metric-card">
+                    <div class="metric-header">Train Delay Minutes</div>
+                    <div class="metric-value" id="kpiDelayVal">
+                        165m
+                    </div>
+                    <div class="metric-change" id="kpiDelayChg">Base</div>
+                    <div class="metric-footer">Across SBC-BWT division today</div>
+                </div>
+
+                <div class="glass-panel metric-card engg">
+                    <div class="metric-header">Block Sync Efficiency</div>
+                    <div class="metric-value" id="kpiEffVal">
+                        58.0%
+                    </div>
+                    <div class="metric-change" id="kpiEffChg">Base</div>
+                    <div class="metric-footer">Overlapping block integration rate</div>
+                </div>
+
+                <div class="glass-panel metric-card ohe">
+                    <div class="metric-header">Asset Availability Index</div>
+                    <div class="metric-value" id="kpiAvailVal">
+                        94.2%
+                    </div>
+                    <div class="metric-change" id="kpiAvailChg">Base</div>
+                    <div class="metric-footer">Target: >95.0% for track corridor</div>
+                </div>
+
+                <div class="glass-panel metric-card st">
+                    <div class="metric-header">Scheduled Maintenance</div>
+                    <div class="metric-value" id="kpiBlocksVal">
+                        3 Siloed
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Planned slots on route</div>
+                    <div class="metric-footer">S&T, Civil, and OHE slots</div>
+                </div>
+            </div>
+
+            <!-- Time Space String Chart Visualizer -->
+            <section class="glass-panel chart-container">
+                <div class="chart-header">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight:600;">Time-Space String Chart (Live Dispatch Console)</h3>
+                    
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-line" style="background: #10b981;"></span>
+                            <span>Vande Bharat/Rajdhani</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-line" style="background: #38bdf8;"></span>
+                            <span>Superfast/Express</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-line" style="background: #9ca3af; border-top: 1px dashed #9ca3af; height: 0;"></span>
+                            <span>Freight Cargo</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: var(--engg-color);"></span>
+                            <span>Track Block</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: var(--ohe-color);"></span>
+                            <span>OHE Block</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: var(--st-color);"></span>
+                            <span>S&T Block</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solver Overlay during optimization -->
+                <div class="solver-overlay" id="solverOverlay">
+                    <div class="spinner"></div>
+                    <div class="solver-text">Running RAIL-BLOCK AI Optimization Engine...</div>
+                </div>
+
+                <!-- SVG Plot Area -->
+                <svg id="timeSpaceChart" viewBox="0 0 900 500" class="time-space-svg"></svg>
+            </section>
+
+            <!-- Logs & Alerts Bottom Row -->
+            <div class="logs-container">
+                
+                <!-- Conflict Alerts -->
+                <section class="glass-panel" style="display: flex; flex-direction: column;">
+                    <h3 class="control-title" style="margin-bottom:12px;">Alert Board (Clash Detection)</h3>
+                    <div class="alert-board" id="alertList">
+                        <!-- Alerts dynamically populated -->
+                    </div>
+                </section>
+
+                <!-- Terminal Execution Log -->
+                <section class="glass-panel" style="display: flex; flex-direction: column;">
+                    <h3 class="control-title" style="margin-bottom:12px;">System Terminal Output</h3>
+                    <div class="terminal-log" id="terminalLog">
+                        <!-- Log lines dynamically populated -->
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Floating Info Popup Tooltip -->
+    <div class="info-popup" id="infoPopup"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
