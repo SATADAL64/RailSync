@@ -136,7 +136,7 @@ To secure the top spot, our project implements features that go beyond basic sch
 * **Value:** Reduces machine idle time and allows freight operators to plan freight paths weeks ahead, avoiding cargo delays.
 
 ### 4.3 Intelligent Train Regulation Heuristics
-* **How it works:** When a block is active, the system automatically determines which trains to stop (regulate) at preceding stations, which loop lines to use, and which trains to divert.
+* **How it works:** When a block is active, the system automatically  258determines which trains to stop (regulate) at preceding stations, which loop lines to use, and which trains to divert.
 * **Value:** Prevents gridlocks where trains block the main lines behind the maintenance zone.
 
 ### 4.4 Automated OHE Power Block Sync

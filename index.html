@@ -5,12 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAIL-BLOCK AI: Automated Block Planning System | Indian Railways</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* User Profile Widget (dashboard header) */
+        .header-right { display: flex; gap: 16px; align-items: center; }
+        #userProfile { position: relative; }
+        .profile-widget {
+            display: flex; align-items: center; gap: 10px;
+            padding: 6px 14px 6px 8px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .profile-widget:hover { background: rgba(255,255,255,0.07); border-color: var(--border-glow); }
+        .profile-avatar {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--engg-color));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            font-family: var(--font-heading);
+        }
+        .profile-info { display: flex; flex-direction: column; }
+        .profile-name { font-size: 0.82rem; font-weight: 600; color: var(--text-main); }
+        .profile-role { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); }
+        .profile-chevron { font-size: 0.7rem; color: var(--text-dim); margin-left: 4px; }
+        .profile-dropdown {
+            display: none; position: absolute; top: calc(100% + 8px); right: 0;
+            background: rgba(17,24,39,0.97); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 12px; min-width: 240px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5); z-index: 200;
+        }
+        .profile-dropdown.visible { display: block; }
+        .dropdown-header {
+            display: flex; align-items: center; gap: 10px;
+            padding-bottom: 10px;
+        }
+        .dropdown-avatar {
+            width: 38px; height: 38px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--engg-color));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 700; color: #fff;
+        }
+        .dropdown-name { font-size: 0.85rem; font-weight: 600; }
+        .dropdown-dept { font-size: 0.72rem; color: var(--text-muted); }
+        .dropdown-empid { font-size: 0.68rem; color: var(--text-dim); font-family: var(--font-mono); }
+        .dropdown-divider { height: 1px; background: var(--border-color); margin: 8px 0; }
+        .dropdown-item {
+            width: 100%; padding: 9px 12px;
+            background: none; border: none; border-radius: 8px;
+            color: var(--text-muted); font-family: var(--font-body);
+            font-size: 0.82rem; cursor: pointer; text-align: left;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.15s;
+        }
+        .dropdown-item:hover { background: rgba(255,255,255,0.06); color: var(--text-main); }
+    </style>
 </head>
 <body>
+    <!-- App Global Navigation (New) -->
+    <nav class="global-nav">
+        <div class="nav-item active" id="nav-dashboard" title="Dashboard" onclick="switchPage('dashboard')">🎛️</div>
+        <div class="nav-item" id="nav-maintenance" title="Maintenance Tasks" onclick="switchPage('maintenance')">🔧</div>
+        <div class="nav-item" id="nav-defects" title="Defect Log" onclick="switchPage('defects')">⚠️</div>
+        <div class="nav-item" id="nav-assets" title="Asset Inventory" onclick="switchPage('assets')">🚆</div>
+    </nav>
 
-    <!-- App Header -->
-    <header class="app-header">
-        <div class="logo-container">
+    <div class="app-content-wrapper">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="logo-container">
             <span class="logo-icon">🎛️</span>
             <div class="logo-text">
                 <h1>RAIL-BLOCK AI</h1>
@@ -18,17 +81,20 @@
             </div>
         </div>
         
-        <div style="display: flex; gap: 20px; align-items: center;">
+        <div class="header-right">
             <div class="header-status">
                 <span class="status-pulse"></span>
                 <span>COA Live Feed Connected</span>
             </div>
             <button class="btn-secondary" onclick="location.reload()">🔄 Refresh Feed</button>
+            <div id="userProfile"></div>
         </div>
     </header>
 
-    <!-- Main Dashboard Container -->
-    <main class="dashboard-container">
+    <!-- Page: Dashboard (Existing) -->
+    <div id="page-dashboard" class="page-view active-page">
+        <!-- Main Dashboard Container -->
+        <main class="dashboard-container">
         
         <!-- Left Sidebar - Controls & Ingestion -->
         <aside class="sidebar">
@@ -225,11 +291,147 @@
 
         </div>
 
-    </main>
+        </main>
+    </div> <!-- End Page: Dashboard -->
+
+    <!-- Page: Maintenance -->
+    <div id="page-maintenance" class="page-view">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+            <div>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Maintenance Planning</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage engineering, OHE, and S&T maintenance requests.</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn-primary" onclick="openMaintenanceModal()">+ New Request</button>
+            </div>
+        </div>
+        
+        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+                <div style="display: flex; gap: 16px;">
+                    <input type="text" id="maintenanceSearch" placeholder="Search tasks..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
+                    <select id="maintenanceDeptFilter" style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white;">
+                        <option value="all">All Departments</option>
+                        <option value="Engineering">Civil Engineering</option>
+                        <option value="Traction Distribution">Electrical (TRD)</option>
+                        <option value="Signal & Telecommunication">S&T</option>
+                    </select>
+                </div>
+                <button class="btn-secondary" onclick="recalculatePriorities()">🔢 Recalculate Priorities</button>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" w-100>
+                    <thead>
+                        <tr>
+                            <th>Task ID</th>
+                            <th>Department</th>
+                            <th>Work Type</th>
+                            <th>Location</th>
+                            <th>Duration</th>
+                            <th>Priority Score</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="maintenance-tbody">
+                        <tr><td colspan="8" style="text-align: center; padding: 20px;">Loading maintenance tasks...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page: Defects -->
+    <div id="page-defects" class="page-view">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+            <div>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Defect Management</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Track and address infrastructure defects reported across the network.</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn-primary" onclick="openDefectModal()">+ Report Defect</button>
+            </div>
+        </div>
+        
+        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+                <div style="display: flex; gap: 16px;">
+                    <input type="text" id="defectSearch" placeholder="Search defects..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" w-100>
+                    <thead>
+                        <tr>
+                            <th>Defect ID</th>
+                            <th>Description</th>
+                            <th>Corridor</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Date Reported</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="defects-tbody">
+                        <tr><td colspan="7" style="text-align: center; padding: 20px;">Loading defect logs...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page: Assets -->
+    <div id="page-assets" class="page-view">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+            <div>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Asset Inventory</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage track sections, OHE infrastructure, and signaling points.</p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+                <div style="display: flex; gap: 16px;">
+                    <input type="text" id="assetSearch" placeholder="Search assets..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
+                    <select id="assetTypeFilter" style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white;">
+                        <option value="all">All Asset Types</option>
+                        <option value="Track Section">Track Section</option>
+                        <option value="OHE">OHE</option>
+                        <option value="Signal Point">Signal Point</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table" w-100>
+                    <thead>
+                        <tr>
+                            <th>Asset ID</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Health Score</th>
+                            <th>Last Maintained</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assets-tbody">
+                        <tr><td colspan="5" style="text-align: center; padding: 20px;">Loading assets...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- End App Content Wrapper -->
 
     <!-- Floating Info Popup Tooltip -->
     <div class="info-popup" id="infoPopup"></div>
 
+    <script src="auth.js"></script>
     <script src="app.js"></script>
+    <script src="maintenance.js"></script>
+    <script src="defects.js"></script>
+    <script src="assets.js"></script>
 </body>
 </html>
