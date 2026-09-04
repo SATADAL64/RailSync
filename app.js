@@ -772,27 +772,21 @@ async function loadBlocksFromDB() {
 // Bind Events
 optButton.addEventListener("click", triggerOptimization);
 
-// Slider Reactive Controller (Coupled Weights: w1 + w3 = 100%)
+// Slider Reactive Controller
 const w1Slider = document.getElementById("w1Slider");
 const w3Slider = document.getElementById("w3Slider");
 const w1Val = document.getElementById("w1Val");
 const w3Val = document.getElementById("w3Val");
 
 function onSliderChange(source) {
-    if (source === 'w1' && w1Slider && w3Slider) {
-        const val = parseInt(w1Slider.value, 10);
-        if (w1Val) w1Val.textContent = val + '%';
-        w3Slider.value = 100 - val;
-        if (w3Val) w3Val.textContent = (100 - val) + '%';
-    } else if (source === 'w3' && w1Slider && w3Slider) {
-        const val = parseInt(w3Slider.value, 10);
-        if (w3Val) w3Val.textContent = val + '%';
-        w1Slider.value = 100 - val;
-        if (w1Val) w1Val.textContent = (100 - val) + '%';
+    if (source === 'w1' && w1Slider && w1Val) {
+        w1Val.textContent = w1Slider.value + '%';
+    } else if (source === 'w3' && w3Slider && w3Val) {
+        w3Val.textContent = w3Slider.value + '%';
     }
 
     const pw = parseInt(w1Slider ? w1Slider.value : 70, 10) / 100;
-    const mw = 1.0 - pw;
+    const mw = parseInt(w3Slider ? w3Slider.value : 30, 10) / 100;
 
     if (appState.optimized) {
         // Optimized state: as punctuality weight increases, train delay decreases strictly and steeply
