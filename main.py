@@ -74,7 +74,7 @@ def verify_password(password: str, hashed: str) -> bool:
 # DEMO USER DATABASE
 # ═══════════════════════════════════════════
 DEMO_USERS = [
-    {"id": "USR001", "employee_id": "COA001", "name": "kavitha subhramanyan",
+    {"id": "USR001", "employee_id": "COA001", "name": "Kavitha Subhramanyam",
      "email": "kavitha.subhramanyan@railnet.gov.in", "password_hash": hash_password("Demo@123"),
      "role": "Control Office", "department": "Control Office", "status": "active"},
     {"id": "USR002", "employee_id": "MPL001", "name": "Srinivasan.J.",
