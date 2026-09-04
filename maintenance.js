@@ -4,7 +4,7 @@ async function loadMaintenanceTasks() {
     const container = document.getElementById('maintenance-tbody');
     container.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px;">Fetching maintenance tasks from backend...</td></tr>';
     try {
-        const resp = await fetch("/api/tasks");
+        const resp = await fetch("/api/tasks?limit=200");
         if (resp.ok) {
             const data = await resp.json();
             maintenanceData = data.items || data;
@@ -24,8 +24,8 @@ function renderMaintenanceTable() {
 
     // Filter data
     const filtered = maintenanceData.filter(task => {
-        const matchesSearch = task.task_id.toLowerCase().includes(searchFilter) || 
-                              task.task_type.toLowerCase().includes(searchFilter) ||
+        const matchesSearch = (task.task_id || "").toLowerCase().includes(searchFilter) || 
+                              (task.task_type || "").toLowerCase().includes(searchFilter) ||
                               (task.location || "").toLowerCase().includes(searchFilter);
         const matchesDept = deptFilter === "all" || task.department === deptFilter;
         return matchesSearch && matchesDept;
@@ -61,12 +61,12 @@ function renderMaintenanceTable() {
                 <td style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main); font-weight: 500;">${task.task_id}</td>
                 <td><span class="badge ${deptBadgeClass}">${task.department}</span></td>
                 <td style="font-weight: 500; font-size: 0.9rem;">${task.task_type}</td>
-                <td style="color: var(--text-muted); font-size: 0.85rem;">Corridor ${task.corridor_id}</td>
+                <td style="color: var(--text-muted); font-size: 0.85rem;">${task.location || ('Corridor ' + task.corridor_id)}</td>
                 <td>${task.estimated_duration}m</td>
                 <td>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span class="badge ${priorityBadgeClass}">${task.priority.toUpperCase()}</span>
-                        <div class="score-bar-bg" style="width: 50px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                        <div class="score-bar-bg" style="width: 50px; height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden;">
                             <div class="score-bar-fill" style="width: ${task.priority_score}%; height: 100%; background: ${task.priority_score > 75 ? 'var(--danger)' : task.priority_score > 40 ? 'var(--st-color)' : 'var(--success)'};"></div>
                         </div>
                         <span style="font-family: var(--font-mono); font-size: 0.75rem;">${Math.round(task.priority_score)}</span>
