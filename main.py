@@ -117,6 +117,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from fastapi import Request
+@app.middleware("http")
+async def add_cache_control_header(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 # Initialize database on startup
 @app.on_event("startup")
 def startup():

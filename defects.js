@@ -4,7 +4,7 @@ async function loadDefects() {
     const container = document.getElementById('defects-tbody');
     container.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Fetching defect logs from backend...</td></tr>';
     try {
-        const resp = await fetch("http://localhost:8000/api/defects");
+        const resp = await fetch("/api/defects");
         if (resp.ok) {
             const data = await resp.json();
             defectsData = data.items || data;
@@ -34,12 +34,13 @@ function renderDefectsTable() {
 
     tbody.innerHTML = filtered.map(defect => {
         let severityBadge = "badge-low";
-        if (defect.severity > 8) severityBadge = "badge-critical";
-        else if (defect.severity > 5) severityBadge = "badge-high";
-        else if (defect.severity > 3) severityBadge = "badge-medium";
+        let sevVal = (defect.severity || "").toLowerCase();
+        if (sevVal === "critical") severityBadge = "badge-critical";
+        else if (sevVal === "high") severityBadge = "badge-high";
+        else if (sevVal === "medium") severityBadge = "badge-medium";
 
         let statusBadge = defect.status === "open" ? "badge-warning" : "badge-success";
-        let dateStr = new Date(defect.date_reported).toLocaleDateString();
+        let dateStr = new Date(defect.detected_date).toLocaleDateString();
 
         return `
             <tr>
@@ -49,7 +50,7 @@ function renderDefectsTable() {
                     <div style="font-size: 0.75rem; color: var(--text-muted);">${defect.description || 'No description'}</div>
                 </td>
                 <td style="color: var(--text-muted);">Corridor ${defect.corridor_id}</td>
-                <td><span class="badge ${severityBadge}">Level ${parseFloat(defect.severity).toFixed(1)}</span></td>
+                <td><span class="badge ${severityBadge}">${(defect.severity || "").toUpperCase()}</span></td>
                 <td><span class="badge ${statusBadge}">${defect.status.toUpperCase()}</span></td>
                 <td style="color: var(--text-dim);">${dateStr}</td>
                 <td>

@@ -4,7 +4,7 @@ async function loadAssets() {
     const container = document.getElementById('assets-tbody');
     container.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Fetching asset inventory from backend...</td></tr>';
     try {
-        const resp = await fetch("http://localhost:8000/api/assets");
+        const resp = await fetch("/api/assets");
         if (resp.ok) {
             const data = await resp.json();
             assetsData = data.items || data;

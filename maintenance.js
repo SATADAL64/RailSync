@@ -4,7 +4,7 @@ async function loadMaintenanceTasks() {
     const container = document.getElementById('maintenance-tbody');
     container.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px;">Fetching maintenance tasks from backend...</td></tr>';
     try {
-        const resp = await fetch("http://localhost:8000/api/tasks");
+        const resp = await fetch("/api/tasks");
         if (resp.ok) {
             const data = await resp.json();
             maintenanceData = data.items || data;
@@ -87,7 +87,7 @@ function renderMaintenanceTable() {
 async function recalculatePriorities() {
     try {
         addLog("Sending recalculate request to Priority Engine...", "info");
-        const resp = await fetch("http://localhost:8000/api/tasks/recalculate-priorities", { method: "POST" });
+        const resp = await fetch("/api/tasks/recalculate-priorities", { method: "POST" });
         if (resp.ok) {
             addLog("Priority Engine recalculation complete.", "success");
             loadMaintenanceTasks(); // reload data
@@ -111,7 +111,7 @@ function editTask(id) {
 async function deleteTask(id) {
     if(confirm("Are you sure you want to delete this task?")) {
         try {
-            const resp = await fetch(`http://localhost:8000/api/tasks/${id}`, { method: "DELETE" });
+            const resp = await fetch(`/api/tasks/${id}`, { method: "DELETE" });
             if (resp.ok) {
                 addLog(`Task ${id} deleted successfully.`, "success");
                 loadMaintenanceTasks();

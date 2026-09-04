@@ -594,7 +594,7 @@ async function triggerOptimization() {
         // ── Call the DATABASE-DRIVEN optimizer — NOT the hardcoded endpoint ──
         addLog("Connecting to database-driven optimizer (localhost:8000/api/optimize-db)...", "info");
 
-        const response = await fetch("http://localhost:8000/api/optimize-db", {
+        const response = await fetch("/api/optimize-db", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -757,7 +757,7 @@ async function triggerOptimization() {
 // ── Load initial blocks from database for unoptimized view ──
 async function loadBlocksFromDB() {
     try {
-        const resp = await fetch("http://localhost:8000/api/block-requests?limit=8");
+        const resp = await fetch("/api/block-requests?limit=8");
         if (resp.ok) {
             const data = await resp.json();
             if (data.items && data.items.length > 0) {
