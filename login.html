@@ -3,133 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In — RAIL-BLOCK AI | Indian Railways Block Planning System</title>
-    <meta name="description" content="Secure authentication portal for the AI-Powered Automatic Block Planning System — Ministry of Railways.">
-    <link rel="stylesheet" href="auth.css">
+    <title>Sign In — AI Block Planner | Railway Operations Planning System</title>
+    <meta name="description" content="Secure authentication portal for the AI-Powered Automatic Block Planning System — SIH 2026 Prototype.">
+    <link rel="stylesheet" href="auth.css?v=3">
 </head>
 <body class="auth-page">
 
+    <!-- TOP HEADER BAR — Government Style -->
+    <header class="auth-topbar">
+        <div class="topbar-left">
+            <div class="govt-emblem">🏛️</div>
+            <div class="topbar-brand">
+                <div class="topbar-title">AI Block Planner</div>
+                <div class="topbar-sub">Railway Operations Planning System • SIH 2026</div>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="topbar-tag">भारतीय रेल</div>
+            <div class="ir-emblem">🚆</div>
+        </div>
+    </header>
+
     <!-- DEMO ENVIRONMENT BANNER -->
     <div class="demo-banner">
-        ⚠ Demo Environment — Synthetic credentials only • SIH 2026 Prototype
+        ⚠ Demonstration Environment — Synthetic credentials only • SIH 2026 Prototype
+    </div>
+
+    <!-- HERO BANNER - Train Image -->
+    <div class="hero-banner">
+        <img src="train_banner.png" alt="Indian Railways - Vande Bharat Express" class="hero-img">
+        <div class="hero-overlay">
+            <div class="hero-text">
+                <h1>AI-Powered Automatic Block Planning</h1>
+                <p>Maximizing Asset Availability for Train Operations on Indian Railways</p>
+            </div>
+            <div class="hero-badges">
+                <span class="hero-badge">Safety</span>
+                <span class="hero-badge">Security</span>
+                <span class="hero-badge">Punctuality</span>
+            </div>
+        </div>
     </div>
 
     <!-- MAIN AUTH CONTAINER -->
     <div class="auth-container">
-
-        <!-- ════════════════════════════════════════════
-             LEFT PANEL — BRAND / VISUAL
-             ════════════════════════════════════════════ -->
-        <div class="auth-brand-panel">
-            <!-- Animated railway corridor background -->
-            <svg class="railway-bg-svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <!-- Track lines -->
-                <line x1="100" y1="0" x2="100" y2="800" stroke="rgba(56,189,248,0.3)" stroke-width="1.5"/>
-                <line x1="102" y1="0" x2="102" y2="800" stroke="rgba(56,189,248,0.3)" stroke-width="1.5"/>
-                <line x1="300" y1="0" x2="300" y2="800" stroke="rgba(192,132,252,0.2)" stroke-width="1"/>
-                <line x1="302" y1="0" x2="302" y2="800" stroke="rgba(192,132,252,0.2)" stroke-width="1"/>
-                <line x1="480" y1="0" x2="480" y2="800" stroke="rgba(251,191,36,0.15)" stroke-width="1"/>
-                <line x1="482" y1="0" x2="482" y2="800" stroke="rgba(251,191,36,0.15)" stroke-width="1"/>
-
-                <!-- Cross ties -->
-                <g opacity="0.2">
-                    <line x1="90" y1="50" x2="112" y2="50" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="110" x2="112" y2="110" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="170" x2="112" y2="170" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="230" x2="112" y2="230" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="290" x2="112" y2="290" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="350" x2="112" y2="350" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="410" x2="112" y2="410" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="470" x2="112" y2="470" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="530" x2="112" y2="530" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="590" x2="112" y2="590" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="650" x2="112" y2="650" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="710" x2="112" y2="710" stroke="#38bdf8" stroke-width="2"/>
-                    <line x1="90" y1="770" x2="112" y2="770" stroke="#38bdf8" stroke-width="2"/>
-                </g>
-
-                <!-- Station nodes -->
-                <circle cx="101" cy="120" r="8" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="1.5"/>
-                <circle cx="101" cy="120" r="3" fill="rgba(56,189,248,0.6)"/>
-                <circle cx="101" cy="320" r="8" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="1.5"/>
-                <circle cx="101" cy="320" r="3" fill="rgba(56,189,248,0.6)"/>
-                <circle cx="101" cy="520" r="8" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="1.5"/>
-                <circle cx="101" cy="520" r="3" fill="rgba(56,189,248,0.6)"/>
-                <circle cx="101" cy="700" r="8" fill="none" stroke="rgba(56,189,248,0.5)" stroke-width="1.5"/>
-                <circle cx="101" cy="700" r="3" fill="rgba(56,189,248,0.6)"/>
-
-                <circle cx="301" cy="200" r="6" fill="none" stroke="rgba(192,132,252,0.4)" stroke-width="1.5"/>
-                <circle cx="301" cy="200" r="2.5" fill="rgba(192,132,252,0.5)"/>
-                <circle cx="301" cy="450" r="6" fill="none" stroke="rgba(192,132,252,0.4)" stroke-width="1.5"/>
-                <circle cx="301" cy="450" r="2.5" fill="rgba(192,132,252,0.5)"/>
-                <circle cx="301" cy="650" r="6" fill="none" stroke="rgba(192,132,252,0.4)" stroke-width="1.5"/>
-                <circle cx="301" cy="650" r="2.5" fill="rgba(192,132,252,0.5)"/>
-
-                <!-- Connecting branch lines -->
-                <path d="M101,320 Q200,310 301,200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="4,6"/>
-                <path d="M101,520 Q250,500 301,450" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="4,6"/>
-                <path d="M301,450 Q380,460 481,400" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4,6"/>
-
-                <!-- Maintenance block indicator zones -->
-                <rect x="94" y="240" width="14" height="50" rx="3" fill="rgba(192,132,252,0.08)" stroke="rgba(192,132,252,0.15)" stroke-width="0.5"/>
-                <rect x="294" y="380" width="14" height="40" rx="3" fill="rgba(251,113,133,0.08)" stroke="rgba(251,113,133,0.12)" stroke-width="0.5"/>
-                <rect x="474" y="300" width="14" height="60" rx="3" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.1)" stroke-width="0.5"/>
-
-                <!-- Moving train indicator (animated) -->
-                <circle cx="101" r="4" fill="rgba(52,211,153,0.7)">
-                    <animate attributeName="cy" values="50;750;50" dur="12s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="301" r="3" fill="rgba(251,113,133,0.5)">
-                    <animate attributeName="cy" values="700;100;700" dur="15s" repeatCount="indefinite"/>
-                </circle>
-
-                <!-- AI decision nodes -->
-                <g opacity="0.15">
-                    <polygon points="200,100 210,115 190,115" fill="#38bdf8"/>
-                    <polygon points="400,350 410,365 390,365" fill="#c084fc"/>
-                    <polygon points="180,550 190,565 170,565" fill="#fbbf24"/>
-                </g>
-            </svg>
-
-            <!-- Brand Content -->
-            <div class="brand-content">
-                <div class="brand-logo">
-                    <div class="brand-logo-icon">🚆</div>
-                    <div class="brand-logo-text">
-                        RAIL-BLOCK AI
-                        <span>Ministry of Railways</span>
-                    </div>
-                </div>
-
-                <h1 class="brand-heading">AI Block<br>Planner</h1>
-                <p class="brand-subtitle">Intelligent Maintenance &amp; Block Planning for Railway Operations</p>
-                <p class="brand-description">Coordinate maintenance, optimize block windows, and maximize infrastructure availability with AI-assisted planning.</p>
-
-                <div class="brand-features">
-                    <div class="brand-feature">
-                        <div class="brand-feature-icon">⚡</div>
-                        <span>AI-Powered Scheduling</span>
-                    </div>
-                    <div class="brand-feature">
-                        <div class="brand-feature-icon">🔗</div>
-                        <span>Multi-Department Coordination</span>
-                    </div>
-                    <div class="brand-feature">
-                        <div class="brand-feature-icon">📊</div>
-                        <span>Asset Availability Optimization</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ════════════════════════════════════════════
-             RIGHT PANEL — LOGIN FORM
-             ════════════════════════════════════════════ -->
         <div class="auth-form-panel">
             <div class="login-card">
                 <div class="login-header">
-                    <h2>Welcome Back</h2>
-                    <p>Sign in to access the Railway Operations Planning Portal</p>
+                    <h2>Authorized User Login</h2>
+                    <p>Sign in to access the Railway Operations Planning System</p>
                 </div>
 
                 <!-- Error message (form-level) -->
@@ -193,27 +115,62 @@
 
                     <!-- Submit -->
                     <button type="submit" class="btn-login" id="loginSubmit">
-                        🔐 Sign In Securely
+                        Sign In
                     </button>
 
                     <!-- Security badge -->
                     <div class="security-badge">
-                        🔒 Secure Railway Operations Portal — Authorized personnel only.
+                        🔒 Authorized Personnel Only — Restricted Access System
                     </div>
                 </form>
 
                 <!-- Demo credentials section -->
                 <div class="login-divider">Demo Access</div>
                 <button type="button" class="btn-demo-creds" id="demoCreds">
-                    🧪 View Demo Credentials
+                    View Demo Credentials
                 </button>
+            </div>
+        </div>
+
+        <!-- Quick Info Sidebar -->
+        <div class="auth-info-panel">
+            <div class="info-card">
+                <h3>System Capabilities</h3>
+                <div class="info-features">
+                    <div class="info-feature">
+                        <div class="info-icon">⚡</div>
+                        <div>
+                            <strong>AI Optimization Engine</strong>
+                            <p>OR-Tools & GNN-powered block scheduling</p>
+                        </div>
+                    </div>
+                    <div class="info-feature">
+                        <div class="info-icon">🔗</div>
+                        <div>
+                            <strong>Multi-Department Coordination</strong>
+                            <p>Engineering, OHE, S&T unified planning</p>
+                        </div>
+                    </div>
+                    <div class="info-feature">
+                        <div class="info-icon">📊</div>
+                        <div>
+                            <strong>Asset Availability</strong>
+                            <p>Real-time health scoring & predictive alerts</p>
+                        </div>
+                    </div>
+                    <div class="info-feature">
+                        <div class="info-icon">🗺️</div>
+                        <div>
+                            <strong>Network Monitoring</strong>
+                            <p>Live train status & conflict detection</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════
-         DEMO CREDENTIALS POPUP
-         ════════════════════════════════════════════ -->
+    <!-- DEMO CREDENTIALS POPUP -->
     <div class="demo-popup-overlay" id="demoPopup">
         <div class="demo-popup" role="dialog" aria-label="Demo Credentials">
             <h3>Demo Credentials</h3>
@@ -221,7 +178,7 @@
 
             <div class="demo-user-card" data-empid="COA001" data-pwd="Demo@123">
                 <div class="demo-user-info">
-                    <h4>Rahul Sharma</h4>
+                    <h4>kavitha subhramanyan</h4>
                     <p>Control Office</p>
                 </div>
                 <div class="demo-user-creds">
@@ -232,7 +189,7 @@
 
             <div class="demo-user-card" data-empid="MPL001" data-pwd="Demo@123">
                 <div class="demo-user-info">
-                    <h4>Priya Verma</h4>
+                    <h4>Srinivasan.J.</h4>
                     <p>Maintenance Planner</p>
                 </div>
                 <div class="demo-user-creds">
@@ -289,9 +246,7 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════
-         FORGOT PASSWORD MODAL
-         ════════════════════════════════════════════ -->
+    <!-- FORGOT PASSWORD MODAL -->
     <div class="forgot-overlay" id="forgotOverlay">
         <div class="forgot-modal" role="dialog" aria-label="Reset Password">
             <h3>Reset Password</h3>
@@ -323,9 +278,7 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════
-         SUCCESS TRANSITION OVERLAY
-         ════════════════════════════════════════════ -->
+    <!-- SUCCESS TRANSITION OVERLAY -->
     <div class="auth-success-overlay" id="successOverlay">
         <div class="success-checkmark">✓</div>
         <div class="success-text" id="successName">Authentication successful</div>
@@ -339,8 +292,8 @@
     <footer class="auth-footer">
         <strong>AI Block Planner</strong> <span>•</span>
         Railway Infrastructure Planning &amp; Decision Support <span>•</span>
-        Prototype &bull; SIH 2026 <span>•</span>
-        For authorized users only
+        SIH 2026 Prototype <span>•</span>
+        Authorized Personnel Only
     </footer>
 
     <script src="auth.js"></script>

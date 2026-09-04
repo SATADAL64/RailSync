@@ -74,11 +74,11 @@ def verify_password(password: str, hashed: str) -> bool:
 # DEMO USER DATABASE
 # ═══════════════════════════════════════════
 DEMO_USERS = [
-    {"id": "USR001", "employee_id": "COA001", "name": "Rahul Sharma",
-     "email": "rahul.sharma@railnet.gov.in", "password_hash": hash_password("Demo@123"),
+    {"id": "USR001", "employee_id": "COA001", "name": "kavitha subhramanyan",
+     "email": "kavitha.subhramanyan@railnet.gov.in", "password_hash": hash_password("Demo@123"),
      "role": "Control Office", "department": "Control Office", "status": "active"},
-    {"id": "USR002", "employee_id": "MPL001", "name": "Priya Verma",
-     "email": "priya.verma@railnet.gov.in", "password_hash": hash_password("Demo@123"),
+    {"id": "USR002", "employee_id": "MPL001", "name": "Srinivasan.J.",
+     "email": "Srinivasan.J@railnet.gov.in", "password_hash": hash_password("Demo@123"),
      "role": "Maintenance Planner", "department": "Maintenance Planning", "status": "active"},
     {"id": "USR003", "employee_id": "ENG001", "name": "Vikram Singh",
      "email": "vikram.singh@railnet.gov.in", "password_hash": hash_password("Demo@123"),

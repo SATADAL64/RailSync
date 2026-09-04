@@ -3,106 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAIL-BLOCK AI: Automated Block Planning System | Indian Railways</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* User Profile Widget (dashboard header) */
-        .header-right { display: flex; gap: 16px; align-items: center; }
-        #userProfile { position: relative; }
-        .profile-widget {
-            display: flex; align-items: center; gap: 10px;
-            padding: 6px 14px 6px 8px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border-color);
-            border-radius: 10px; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .profile-widget:hover { background: rgba(255,255,255,0.07); border-color: var(--border-glow); }
-        .profile-avatar {
-            width: 34px; height: 34px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--engg-color));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; font-weight: 700; color: #fff;
-            font-family: var(--font-heading);
-        }
-        .profile-info { display: flex; flex-direction: column; }
-        .profile-name { font-size: 0.82rem; font-weight: 600; color: var(--text-main); }
-        .profile-role { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); }
-        .profile-chevron { font-size: 0.7rem; color: var(--text-dim); margin-left: 4px; }
-        .profile-dropdown {
-            display: none; position: absolute; top: calc(100% + 8px); right: 0;
-            background: rgba(17,24,39,0.97); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 12px; min-width: 240px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.5); z-index: 200;
-        }
-        .profile-dropdown.visible { display: block; }
-        .dropdown-header {
-            display: flex; align-items: center; gap: 10px;
-            padding-bottom: 10px;
-        }
-        .dropdown-avatar {
-            width: 38px; height: 38px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--engg-color));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; font-weight: 700; color: #fff;
-        }
-        .dropdown-name { font-size: 0.85rem; font-weight: 600; }
-        .dropdown-dept { font-size: 0.72rem; color: var(--text-muted); }
-        .dropdown-empid { font-size: 0.68rem; color: var(--text-dim); font-family: var(--font-mono); }
-        .dropdown-divider { height: 1px; background: var(--border-color); margin: 8px 0; }
-        .dropdown-item {
-            width: 100%; padding: 9px 12px;
-            background: none; border: none; border-radius: 8px;
-            color: var(--text-muted); font-family: var(--font-body);
-            font-size: 0.82rem; cursor: pointer; text-align: left;
-            display: flex; align-items: center; gap: 8px;
-            transition: all 0.15s;
-        }
-        .dropdown-item:hover { background: rgba(255,255,255,0.06); color: var(--text-main); }
-    </style>
+    <title>AI Block Planner — Railway Operations Planning System | SIH 2026</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="network-control.css?v=2">
 </head>
 <body>
-    <!-- App Global Navigation (New) -->
+
+    <!-- Government Sidebar Navigation -->
     <nav class="global-nav">
-        <div class="nav-item active" id="nav-dashboard" title="Dashboard" onclick="switchPage('dashboard')">🎛️</div>
-        <div class="nav-item" id="nav-maintenance" title="Maintenance Tasks" onclick="switchPage('maintenance')">🔧</div>
-        <div class="nav-item" id="nav-defects" title="Defect Log" onclick="switchPage('defects')">⚠️</div>
-        <div class="nav-item" id="nav-assets" title="Asset Inventory" onclick="switchPage('assets')">🚆</div>
+        <div class="sidebar-header">
+            <div class="sidebar-logo">IR</div>
+            <div>
+                <div class="sidebar-title">AI Block Planner</div>
+                <div class="sidebar-subtitle">SIH 2026 Prototype</div>
+            </div>
+        </div>
+
+        <div class="sidebar-section-label">Main</div>
+        <div class="nav-item active" id="nav-dashboard" title="Dashboard" onclick="switchPage('dashboard')">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+        </div>
+
+        <div class="sidebar-section-label">Maintenance</div>
+        <div class="nav-item" id="nav-maintenance" title="Maintenance Tasks" onclick="switchPage('maintenance')">
+            <span class="nav-icon">🔧</span>
+            <span class="nav-label">Maintenance Tasks</span>
+        </div>
+        <div class="nav-item" id="nav-defects" title="Defect Log" onclick="switchPage('defects')">
+            <span class="nav-icon">⚠</span>
+            <span class="nav-label">Defect Log</span>
+        </div>
+        <div class="nav-item" id="nav-assets" title="Asset Inventory" onclick="switchPage('assets')">
+            <span class="nav-icon">🛤</span>
+            <span class="nav-label">Asset Inventory</span>
+        </div>
+
+        <div class="sidebar-section-label">Monitoring</div>
+        <div class="nav-item" id="nav-network" title="Live Railway Network" onclick="switchPage('network')">
+            <span class="nav-icon">🌐</span>
+            <span class="nav-label">Network Control</span>
+        </div>
     </nav>
 
     <div class="app-content-wrapper">
+
+        <!-- Government Utility Bar -->
+        <div class="gov-utility-bar">
+            <div class="gov-utility-left">
+                Railway Operations Planning System — SIH 2026 Prototype
+            </div>
+            <div class="gov-utility-right">
+                <a href="#">Help</a>
+                <span>|</span>
+                <a href="#">Contact</a>
+                <span>|</span>
+                <span id="headerDateTime"></span>
+            </div>
+        </div>
+
         <!-- App Header -->
         <header class="app-header">
             <div class="logo-container">
-            <span class="logo-icon">🎛️</span>
-            <div class="logo-text">
-                <h1>RAIL-BLOCK AI</h1>
-                <p>Ministry of Railways • Automated Planning System</p>
+                <div class="logo-text">
+                    <h1>AI Block Planner</h1>
+                    <p>Automatic Block Planning & Asset Availability Management</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="header-right">
-            <div class="header-status">
-                <span class="status-pulse"></span>
-                <span>COA Live Feed Connected</span>
-            </div>
-            <button class="btn-secondary" onclick="location.reload()">🔄 Refresh Feed</button>
-            <div id="userProfile"></div>
-        </div>
-    </header>
 
-    <!-- Page: Dashboard (Existing) -->
+            <div class="header-right">
+                <div class="header-status">
+                    <span class="status-pulse"></span>
+                    <span>System Operational</span>
+                </div>
+                <button class="btn-secondary" onclick="location.reload()">↻ Refresh</button>
+                <div id="userProfile"></div>
+            </div>
+        </header>
+
+    <!-- Page: Dashboard -->
     <div id="page-dashboard" class="page-view active-page">
-        <!-- Main Dashboard Container -->
         <main class="dashboard-container">
-        
+
         <!-- Left Sidebar - Controls & Ingestion -->
         <aside class="sidebar">
-            
+
             <!-- Controls Panel -->
             <section class="glass-panel">
                 <h3 class="control-title">AI Solver Console</h3>
-                
+
                 <div class="slider-group">
                     <div class="slider-label">
                         <span>Punctuality Weight (w1)</span>
@@ -120,8 +109,8 @@
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">AI Optimization Model</label>
-                    <select style="width:100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: var(--font-body); outline: none;">
+                    <label style="display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">AI Optimization Model</label>
+                    <select style="width:100%; padding: 10px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-main); font-family: var(--font-body); outline: none; font-size: 0.85rem;">
                         <option value="milp">Google OR-Tools CP-SAT (MILP)</option>
                         <option value="rl">Deep Q-Network (Real-time RL)</option>
                         <option value="ga">Hybrid Genetic Algorithm</option>
@@ -129,19 +118,18 @@
                 </div>
 
                 <button class="btn-primary" id="optButton">
-                    <span>⚡</span> Run AI Optimization Engine
+                    <span>⚡</span> Run AI Optimization
                 </button>
             </section>
 
             <!-- Pending Maintenance Requests -->
             <section class="glass-panel" style="flex-grow: 1;">
                 <h3 class="control-title">
-                    <span>BDMS Ingested (3)</span>
-                    <span style="font-size: 0.75rem; color: var(--primary); font-weight: normal;">Live Feed</span>
+                    <span>Pending Block Requests (3)</span>
+                    <span style="font-size: 0.72rem; color: var(--success); font-weight: 500;">● Live Feed</span>
                 </h3>
-                
+
                 <div class="requests-list">
-                    <!-- Request 1 -->
                     <div class="request-card engg">
                         <div class="request-header">
                             <span class="dept-badge">Civil Engg</span>
@@ -154,7 +142,6 @@
                         </div>
                     </div>
 
-                    <!-- Request 2 -->
                     <div class="request-card ohe">
                         <div class="request-header">
                             <span class="dept-badge">Elec / TRD</span>
@@ -167,7 +154,6 @@
                         </div>
                     </div>
 
-                    <!-- Request 3 -->
                     <div class="request-card st">
                         <div class="request-header">
                             <span class="dept-badge">S&T</span>
@@ -185,7 +171,7 @@
 
         <!-- Right Side - Visualizer & Logs -->
         <div class="main-content">
-            
+
             <!-- Metrics Bar -->
             <div class="metrics-row">
                 <div class="glass-panel metric-card">
@@ -220,7 +206,7 @@
                     <div class="metric-value" id="kpiBlocksVal">
                         3 Siloed
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Planned slots on route</div>
+                    <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">Planned slots on route</div>
                     <div class="metric-footer">S&T, Civil, and OHE slots</div>
                 </div>
             </div>
@@ -228,8 +214,8 @@
             <!-- Time Space String Chart Visualizer -->
             <section class="glass-panel chart-container">
                 <div class="chart-header">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight:600;">Time-Space String Chart (Live Dispatch Console)</h3>
-                    
+                    <h3 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight:600; color: var(--text-main);">Time-Space String Chart (Live Dispatch Console)</h3>
+
                     <div class="chart-legend">
                         <div class="legend-item">
                             <span class="legend-line" style="background: #10b981;"></span>
@@ -261,7 +247,7 @@
                 <!-- Solver Overlay during optimization -->
                 <div class="solver-overlay" id="solverOverlay">
                     <div class="spinner"></div>
-                    <div class="solver-text">Running RAIL-BLOCK AI Optimization Engine...</div>
+                    <div class="solver-text">Running AI Optimization Engine...</div>
                 </div>
 
                 <!-- SVG Plot Area -->
@@ -270,12 +256,11 @@
 
             <!-- Logs & Alerts Bottom Row -->
             <div class="logs-container">
-                
+
                 <!-- Conflict Alerts -->
                 <section class="glass-panel" style="display: flex; flex-direction: column;">
-                    <h3 class="control-title" style="margin-bottom:12px;">Alert Board (Clash Detection)</h3>
+                    <h3 class="control-title" style="margin-bottom:12px;">Conflict Detection Alerts</h3>
                     <div class="alert-board" id="alertList">
-                        <!-- Alerts dynamically populated -->
                     </div>
                 </section>
 
@@ -283,7 +268,6 @@
                 <section class="glass-panel" style="display: flex; flex-direction: column;">
                     <h3 class="control-title" style="margin-bottom:12px;">System Terminal Output</h3>
                     <div class="terminal-log" id="terminalLog">
-                        <!-- Log lines dynamically populated -->
                     </div>
                 </section>
 
@@ -296,30 +280,30 @@
 
     <!-- Page: Maintenance -->
     <div id="page-maintenance" class="page-view">
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 24px 28px 12px 28px;">
             <div>
-                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Maintenance Planning</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage engineering, OHE, and S&T maintenance requests.</p>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 4px;">Maintenance Planning Register</h2>
+                <p style="color: var(--text-muted); font-size: 0.82rem;">Manage engineering, OHE, and S&T maintenance activities.</p>
             </div>
             <div class="page-actions">
                 <button class="btn-primary" onclick="openMaintenanceModal()">+ New Request</button>
             </div>
         </div>
-        
-        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
-            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
-                <div style="display: flex; gap: 16px;">
-                    <input type="text" id="maintenanceSearch" placeholder="Search tasks..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
-                    <select id="maintenanceDeptFilter" style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white;">
+
+        <div style="padding: 0 28px 28px 28px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;">
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="maintenanceSearch" placeholder="Search tasks..." style="padding: 8px 14px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); width: 240px; font-family: var(--font-body); font-size: 0.85rem;">
+                    <select id="maintenanceDeptFilter" style="padding: 8px 14px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); font-family: var(--font-body); font-size: 0.85rem;">
                         <option value="all">All Departments</option>
                         <option value="Engineering">Civil Engineering</option>
                         <option value="Traction Distribution">Electrical (TRD)</option>
                         <option value="Signal & Telecommunication">S&T</option>
                     </select>
                 </div>
-                <button class="btn-secondary" onclick="recalculatePriorities()">🔢 Recalculate Priorities</button>
+                <button class="btn-secondary" onclick="recalculatePriorities()">Recalculate Priorities</button>
             </div>
-            
+
             <div class="table-container">
                 <table class="data-table" w-100>
                     <thead>
@@ -344,23 +328,23 @@
 
     <!-- Page: Defects -->
     <div id="page-defects" class="page-view">
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 24px 28px 12px 28px;">
             <div>
-                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Defect Management</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Track and address infrastructure defects reported across the network.</p>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 4px;">Defect Management Register</h2>
+                <p style="color: var(--text-muted); font-size: 0.82rem;">Track and address infrastructure defects reported across the network.</p>
             </div>
             <div class="page-actions">
                 <button class="btn-primary" onclick="openDefectModal()">+ Report Defect</button>
             </div>
         </div>
-        
-        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
-            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
-                <div style="display: flex; gap: 16px;">
-                    <input type="text" id="defectSearch" placeholder="Search defects..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
+
+        <div style="padding: 0 28px 28px 28px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;">
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="defectSearch" placeholder="Search defects..." style="padding: 8px 14px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); width: 240px; font-family: var(--font-body); font-size: 0.85rem;">
                 </div>
             </div>
-            
+
             <div class="table-container">
                 <table class="data-table" w-100>
                     <thead>
@@ -384,18 +368,18 @@
 
     <!-- Page: Assets -->
     <div id="page-assets" class="page-view">
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px 40px 16px 40px;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; padding: 24px 28px 12px 28px;">
             <div>
-                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Asset Inventory</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage track sections, OHE infrastructure, and signaling points.</p>
+                <h2 style="color: var(--text-main); font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 4px;">Asset Inventory Register</h2>
+                <p style="color: var(--text-muted); font-size: 0.82rem;">Manage track sections, OHE infrastructure, and signaling points.</p>
             </div>
         </div>
-        
-        <div style="padding: 0 40px 40px 40px; display: flex; flex-direction: column; gap: 24px;">
-            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
-                <div style="display: flex; gap: 16px;">
-                    <input type="text" id="assetSearch" placeholder="Search assets..." style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; width: 250px;">
-                    <select id="assetTypeFilter" style="padding: 10px 16px; border-radius: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white;">
+
+        <div style="padding: 0 28px 28px 28px; display: flex; flex-direction: column; gap: 16px;">
+            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;">
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="assetSearch" placeholder="Search assets..." style="padding: 8px 14px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); width: 240px; font-family: var(--font-body); font-size: 0.85rem;">
+                    <select id="assetTypeFilter" style="padding: 8px 14px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); font-family: var(--font-body); font-size: 0.85rem;">
                         <option value="all">All Asset Types</option>
                         <option value="Track Section">Track Section</option>
                         <option value="OHE">OHE</option>
@@ -403,7 +387,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="table-container">
                 <table class="data-table" w-100>
                     <thead>
@@ -423,6 +407,68 @@
         </div>
     </div>
 
+    <!-- Page: Network Control -->
+    <div id="page-network" class="page-view">
+        <div class="nc-page-header">
+            <h2>Railway Network Control <span class="nc-live-badge">Live</span></h2>
+        </div>
+
+        <div class="nc-layout">
+            <!-- Left: Train Cards -->
+            <div class="nc-train-list">
+                <div class="nc-train-list-header">
+                    <h3>Live Train Status</h3>
+                </div>
+                <div id="nc-train-cards"></div>
+            </div>
+
+            <!-- Center: Map -->
+            <div class="nc-map-area">
+                <div class="nc-map-header">
+                    <h3>◉ Network Map</h3>
+                </div>
+                <div class="nc-map-container" id="nc-map-container">
+                    <!-- Pan/Zoom SVG map injected dynamically by network-control.js -->
+                </div>
+
+            </div>
+
+            <!-- Right: Overview + Conflicts -->
+            <div class="nc-right-col">
+                <div class="nc-overview">
+                    <h3>Network Overview</h3>
+                    <div class="nc-kpi-grid" id="nc-kpi-grid"></div>
+                </div>
+
+                <div class="nc-performance">
+                    <h3>Performance</h3>
+                    <div id="nc-performance-data"></div>
+                </div>
+
+                <div class="nc-conflicts">
+                    <h3>⚠ Active Conflicts</h3>
+                    <div id="nc-conflicts-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nc-toast" id="nc-toast"></div>
+    </div>
+
+    <!-- Government Footer -->
+    <footer class="gov-footer">
+        <div class="gov-footer-left">
+            <strong>AI Block Planner</strong> — Railway Infrastructure Planning & Decision Support
+        </div>
+        <div class="gov-footer-right">
+            <a href="#">About</a> |
+            <a href="#">Help</a> |
+            <a href="#">Accessibility</a> |
+            Prototype • SIH 2026 |
+            Data Source: Demonstration Dataset
+        </div>
+    </footer>
+
     </div> <!-- End App Content Wrapper -->
 
     <!-- Floating Info Popup Tooltip -->
@@ -433,5 +479,18 @@
     <script src="maintenance.js"></script>
     <script src="defects.js"></script>
     <script src="assets.js"></script>
+    <script src="network-control.js"></script>
+    <script>
+        // Update header date/time
+        function updateHeaderTime() {
+            const el = document.getElementById('headerDateTime');
+            if (el) {
+                const now = new Date();
+                el.textContent = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            }
+        }
+        updateHeaderTime();
+        setInterval(updateHeaderTime, 60000);
+    </script>
 </body>
 </html>

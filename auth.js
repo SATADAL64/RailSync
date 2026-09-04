@@ -507,7 +507,7 @@ const LoginPageController = {
             // Show error
             this._showFormError(result.error);
             this.submitBtn.disabled = false;
-            this.submitBtn.innerHTML = '🔐 Sign In Securely';
+            this.submitBtn.innerHTML = 'Sign In';
             this.employeeIdInput.disabled = false;
             this.passwordInput.disabled = false;
             this.passwordInput.focus();

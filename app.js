@@ -785,6 +785,7 @@ window.switchPage = function(pageId) {
         if (pageId === 'maintenance') loadMaintenanceTasks();
         if (pageId === 'defects') loadDefects();
         if (pageId === 'assets') loadAssets();
+        if (pageId === 'network' && typeof initNetworkControl === 'function') initNetworkControl();
     }
 };
 
