@@ -717,9 +717,9 @@ async function triggerOptimization() {
                 // Dynamic simulation: strictly decreasing delay as punctuality weight increases
                 const delayDecay = Math.pow(1.0 - pw, 1.4);
                 const simOptDelay = Math.max(5, Math.round(5 + (165 * 0.48) * delayDecay));
-                const simEfficiency = Math.min(99.5, Math.round(45 + mw * 50));
-                const simAvail = Math.min(99.5, (92.0 + pw * 6.5).toFixed(1));
                 const reduction = ((1 - simOptDelay / 165) * 100).toFixed(1);
+                const simEfficiency = Math.min(99.5, Math.round(50 + 1 * 12 + parseFloat(reduction) * 0.3));
+                const simAvail = Math.min(99.5, (92.0 + pw * 6.5).toFixed(1));
 
                 // Update train delay vectors based on punctuality weight
                 const t1Delay = Math.round(simOptDelay * 0.65);
