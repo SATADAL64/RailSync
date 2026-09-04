@@ -592,7 +592,7 @@ async function triggerOptimization() {
 
     try {
         // ── Call the DATABASE-DRIVEN optimizer — NOT the hardcoded endpoint ──
-        addLog("Connecting to database-driven optimizer (localhost:8000/api/optimize-db)...", "info");
+        addLog("Connecting to database-driven optimizer (/api/optimize-db)...", "info");
 
         const response = await fetch("/api/optimize-db", {
             method: "POST",

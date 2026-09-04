@@ -110,7 +110,7 @@ const AuthService = {
     async login(employeeId, password) {
         // Try backend first
         try {
-            const response = await fetch("http://localhost:8000/api/auth/login", {
+            const response = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ employee_id: employeeId, password: password })
@@ -243,7 +243,7 @@ const AuthService = {
         // Try to hit backend logout
         const session = this.getSession();
         if (session && session.token) {
-            fetch("http://localhost:8000/api/auth/logout", {
+            fetch("/api/auth/logout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -291,7 +291,7 @@ const AuthService = {
     async forgotPassword(employeeId, email) {
         // Try backend
         try {
-            const response = await fetch("http://localhost:8000/api/auth/forgot-password", {
+            const response = await fetch("/api/auth/forgot-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ employee_id: employeeId, email: email })

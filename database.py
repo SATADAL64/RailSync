@@ -15,7 +15,19 @@ from sqlalchemy.pool import StaticPool
 # ═══════════════════════════════════════════
 # DATABASE SETUP
 # ═══════════════════════════════════════════
-DB_PATH = os.path.join(os.path.dirname(__file__), "railblock.db")
+_PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+_BUNDLED_DB = os.path.join(_PROJECT_DIR, "railblock.db")
+
+# On Vercel, filesystem is read-only except /tmp/
+# Copy the bundled DB there on cold start
+if os.environ.get("VERCEL"):
+    import shutil
+    DB_PATH = "/tmp/railblock.db"
+    if not os.path.exists(DB_PATH) and os.path.exists(_BUNDLED_DB):
+        shutil.copy2(_BUNDLED_DB, DB_PATH)
+else:
+    DB_PATH = _BUNDLED_DB
+
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
