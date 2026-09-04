@@ -1050,8 +1050,9 @@ def serve_index():
 def serve_login():
     return FileResponse(os.path.join(STATIC_DIR, "login.html"))
 
-# Mount static files AFTER all API routes to avoid conflicts
-app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
+# Mount static files *only* if not on Vercel, because Vercel routes static files directly via vercel.json
+if not os.environ.get("VERCEL"):
+    app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 if __name__ == "__main__":
