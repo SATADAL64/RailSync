@@ -736,6 +736,8 @@ def list_defects(department: Optional[str] = None, severity: Optional[str] = Non
                  "severity": d.severity, "detected_date": str(d.detected_date),
                  "description": d.description, "safety_risk": d.safety_risk,
                  "operational_risk": d.operational_risk, "status": d.status,
+                 "location": d.asset.location if d.asset else "",
+                 "corridor_id": d.asset.corridor_id if d.asset else None,
                  "resolution_date": str(d.resolution_date) if d.resolution_date else None}
                 for d in defects
             ]
