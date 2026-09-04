@@ -1,29 +1,8 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.png",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "railblock.db",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -36,20 +15,8 @@
       "dest": "/login.html"
     },
     {
-      "src": "/(.*\\.js)",
+      "src": "/(.*\\.(js|css|png|ico|svg|woff2?))",
       "dest": "/$1"
-    },
-    {
-      "src": "/(.*\\.css)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*\\.png)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/railblock.db",
-      "dest": "/railblock.db"
     },
     {
       "src": "/(.*)",
