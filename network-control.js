@@ -873,7 +873,6 @@ function renderConflicts() {
         card.innerHTML = `
             <div class="nc-conflict-top">
                 <span class="nc-conflict-type ${conflict.type}">${conflict.type}</span>
-                <button class="nc-conflict-resolve" onclick="ncShowToast('⚡ AI resolving ${conflict.type} conflict at ${conflict.location}...')">AI Resolve</button>
             </div>
             <div class="nc-conflict-location">${conflict.location}</div>
             <div class="nc-conflict-trains">Trains: ${conflict.trains.join(', ')}</div>
